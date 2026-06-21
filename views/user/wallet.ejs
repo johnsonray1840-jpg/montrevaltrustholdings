@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-border: rgba(255, 255, 255, 0.08);
+            --brand-bg: rgba(255, 255, 255, 0.03);
+            --bg-dark: #0f172a;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-dark); font-family: 'DM Sans', sans-serif; color: #e2e8f0; min-height: 100vh; }
+
+        .dashboard { padding: 20px 0 60px; }
+        .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+
+        .sidebar {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 20px; padding: 24px; position: sticky; top: 100px;
+        }
+        .user-profile { padding: 20px; text-align: center; border-bottom: 1px solid var(--brand-border); margin-bottom: 20px; }
+        .user-avatar { width: 80px; height: 80px; margin: 0 auto 15px; background: var(--brand-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.15); }
+        .user-avatar i { font-size: 3rem; color: var(--brand-white); }
+        .user-profile h4 { color: var(--brand-white); margin-bottom: 4px; }
+        .user-profile p { color: var(--brand-gray); font-size: 0.9rem; }
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 6px; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--brand-gray); text-decoration: none; border-radius: 10px; font-size: 0.95rem; transition: all 0.2s; }
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.05); color: var(--brand-white); }
+        .sidebar-nav li.active a { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-nav i { width: 20px; }
+
+        .content-area { padding: 0; }
+        .dashboard-header h1 { color: var(--brand-white); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 5px; }
+        .dashboard-header p { color: var(--brand-gray); }
+
+        .total-balance-box {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 16px; padding: 30px; text-align: center; margin-bottom: 25px;
+        }
+        .balance-label { color: var(--brand-gray); font-size: 0.9rem; margin-bottom: 8px; }
+        .total-balance-amount { font-size: 2.5rem; font-weight: 700; color: var(--success); }
+        .total-balance-amount small { font-size: 0.8rem; color: var(--brand-gray); display: block; margin-top: 4px; }
+
+        .chain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 25px 0; }
+        .chain-card { background: var(--brand-bg); border: 1px solid var(--brand-border); border-radius: 16px; padding: 24px; text-align: center; }
+        .chain-card h3 { color: var(--brand-white); margin-bottom: 12px; }
+        .chain-address { font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; word-break: break-all; font-size: 0.85rem; color: var(--brand-white); margin: 12px 0; }
+        .qr-code { margin: 12px auto; display: block; max-width: 120px; border-radius: 8px; }
+        .balance-line { margin: 10px 0; font-size: 0.9rem; color: var(--brand-gray); }
+        .balance-line .amount { color: var(--brand-white); font-weight: 600; }
+        .action-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+
+        .security-notice {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 14px; padding: 20px; display: flex; gap: 15px; align-items: flex-start; margin-top: 30px;
+        }
+        .security-notice i { font-size: 1.5rem; color: var(--brand-white); }
+        .security-notice strong { color: var(--brand-white); display: block; margin-bottom: 4px; }
+        .security-notice p { color: var(--brand-gray); font-size: 0.85rem; margin: 0; }
+
+        .empty-state { text-align: center; padding: 60px 20px; }
+        .empty-state h3 { color: var(--brand-white); }
+        .empty-state p { color: var(--brand-gray); }
+
+        .btn {
+            padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 0.85rem;
+            cursor: pointer; border: none; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.12); }
+        .btn-primary:hover { background: #2d4257; }
+        .btn-outline { background: transparent; border: 1px solid var(--brand-border); color: var(--brand-white); }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); }
+        .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
+        .btn-lg { padding: 14px 28px; font-size: 1rem; }
+
+        .success-popup {
+            position: fixed; top: 20px; right: 20px;
+            background: var(--success); color: #fff;
+            padding: 18px 24px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px;
+            z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            animation: slideIn 0.3s ease-out;
+        }
+        .success-popup i { font-size: 1.5rem; }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none;
+            align-items: center; justify-content: center; z-index: 10000;
+        }
+        .modal-box {
+            background: #1a1f2e; border: 1px solid var(--brand-border);
+            border-radius: 20px; padding: 30px; max-width: 450px; width: 90%; text-align: center;
+        }
+        .modal-box h3 { color: var(--brand-white); margin-bottom: 15px; }
+        .modal-box .address-text { font-family: monospace; word-break: break-all; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; color: var(--brand-white); margin: 15px 0; }
+        .qr-large { max-width: 220px; margin: 15px auto; display: block; border-radius: 8px; }
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--brand-gray); font-size: 0.85rem; }
+        .form-control {
+            width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--brand-border); border-radius: 10px;
+            color: var(--brand-white); font-size: 0.9rem; font-family: inherit;
+        }
+        .form-control:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+        select.form-control option { background: #1a1f2e; color: #fff; }
+        .modal-actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+
+        .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; }
+        .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); }
+
+        #pinOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4><%= user.fullName %></h4>
+                        <p><%= user.email %></p>
+                    </div>
+                    <ul class="sidebar-nav">
+                        <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="/user/kyc"><i class="fas fa-id-card"></i> Verification</a></li>
+                        <li><a href="/user/trusts"><i class="fas fa-shield-haltered"></i> My Trusts</a></li>
+                        <li class="active"><a href="/user/wallet"><i class="fas fa-wallet"></i> Wallet</a></li>
+                        <li><a href="/user/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-area">
+                    <% if (locals.success) { %>
+                        <div class="success-popup" id="successPopup">
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Success!</strong><p><%= success %></p></div>
+                        </div>
+                        <script>setTimeout(() => { const p = document.getElementById('successPopup'); if(p) { p.style.opacity='0'; setTimeout(() => p.remove(), 500); } }, 4000);</script>
+                    <% } %>
+
+                    <% if (!wallet) { %>
+                        <div class="dashboard-header"><h1>My Wallet</h1><p>You don't have a wallet yet.</p></div>
+                        <div class="empty-state">
+                            <i class="fas fa-wallet" style="font-size:4rem;color:var(--brand-gray);margin-bottom:20px;"></i>
+                            <h3>No Wallet Found</h3>
+                            <p>You need an approved trust to create a wallet.</p>
+                            <% if (hasApprovedTrust) { %>
+                                <a href="/user/wallet/create" class="btn btn-primary btn-lg" style="margin-top:20px;"><i class="fas fa-plus-circle"></i> Create Wallet</a>
+                            <% } else { %>
+                                <a href="/apply" class="btn btn-primary btn-lg" style="margin-top:20px;"><i class="fas fa-shield-haltered"></i> Establish Trust First</a>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <div class="dashboard-header">
+                            <h1>My Crypto Wallet</h1>
+                            <p>Linked to: <%= wallet.assignedTrustId?.trustName || 'Your Trust' %></p>
+                        </div>
+
+                        <div class="total-balance-box">
+                            <div class="balance-label">Total Balance (USD)</div>
+                            <div class="total-balance-amount">
+                                $<%= totalBalance.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) %>
+                                <% if (locals.manualBalance && manualBalance !== 0) { %>
+                                    <small>(includes $<%= manualBalance.toLocaleString() %> profit)</small>
+                                <% } %>
+                            </div>
+                            <button class="btn btn-primary" id="showWithdrawModal" style="margin-top:15px;"><i class="fas fa-arrow-up"></i> Withdraw</button>
+                        </div>
+
+                        <div class="chain-grid">
+                            <% const chains = ['btc','eth','usdt','xrp','bnb']; %>
+                            <% chains.forEach(chain => { %>
+                                <div class="chain-card">
+                                    <h3><%= chain.toUpperCase() %></h3>
+                                    <img src="<%= qrCodes[chain] %>" class="qr-code" alt="QR">
+                                    <div class="chain-address"><%= wallet.addresses[chain] %></div>
+                                    <a href="<%= getExplorerUrl(chain, wallet.addresses[chain]) %>" target="_blank" class="btn btn-sm btn-outline" style="margin-top:6px;"><i class="fas fa-external-link-alt"></i> Explorer</a>
+                                    <div class="balance-line">
+                                        <span class="amount"><%= chainBalances[chain].balance %></span> <%= chain.toUpperCase() %>
+                                        (<span class="amount">$<%= chainBalances[chain].usdValue.toLocaleString(undefined, {minimumFractionDigits:2}) %></span>)
+                                    </div>
+                                    <div class="action-btns">
+                                        <button class="btn btn-sm btn-outline copy-btn" data-address="<%= wallet.addresses[chain] %>"><i class="fas fa-copy"></i> Copy</button>
+                                        <button class="btn btn-sm btn-outline receive-btn" data-chain="<%= chain.toUpperCase() %>" data-address="<%= wallet.addresses[chain] %>" data-qr="<%= qrCodes[chain] %>"><i class="fas fa-qrcode"></i> Receive</button>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <div class="security-notice">
+                            <i class="fas fa-shield-alt"></i>
+                            <div><strong>Non-Custodial Wallet</strong><p>Your recovery phrase was shown only once. We do not store it. Keep it safe.</p></div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal-overlay">
+        <div class="modal-box" style="max-width:480px;">
+            <h3>Request Withdrawal</h3>
+            <form action="/user/wallet/withdraw" method="POST">
+                <div class="form-group"><label>Chain *</label><select name="chain" class="form-control" required><option value="btc">BTC</option><option value="eth">ETH</option><option value="usdt">USDT</option><option value="xrp">XRP</option><option value="bnb">BNB</option></select></div>
+                <div class="form-group"><label>Amount (USD) *</label><input type="number" name="amount" class="form-control" step="0.01" min="0.01" required></div>
+                <div class="form-group"><label>Destination Address *</label><input type="text" name="toAddress" class="form-control" required></div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-outline close-modal-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Receive Modal -->
+    <div id="receiveModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="modalChain"></h3>
+            <img id="modalQr" class="qr-large" src="" alt="QR">
+            <p class="address-text" id="modalAddress"></p>
+            <button class="btn btn-outline close-modal-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- PIN Overlay -->
+    <% if (!walletUnlocked && wallet) { %>
+        <div id="pinOverlay">
+            <div style="background:#1a1f2e;border:1px solid var(--brand-border);border-radius:20px;padding:30px;text-align:center;max-width:400px;width:90%;">
+                <h3 style="color:var(--brand-white);"><i class="fas fa-lock"></i> Enter Wallet PIN</h3>
+                <% if (locals.pinError) { %><div class="alert alert-error"><%= pinError %></div><% } %>
+                <form method="POST" action="/user/wallet/unlock">
+                    <input type="password" name="pin" class="form-control" placeholder="000000" maxlength="6" pattern="[0-9]{6}" required autofocus style="text-align:center;font-size:1.5rem;letter-spacing:8px;">
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:15px;">Unlock</button>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+    <script>
+        function copyText(text) { navigator.clipboard.writeText(text).then(() => alert('Copied!')); }
+
+        document.querySelectorAll('.copy-btn').forEach(b => b.addEventListener('click', () => copyText(b.dataset.address)));
+        
+        document.querySelectorAll('.receive-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                document.getElementById('modalChain').textContent = 'Receive ' + b.dataset.chain;
+                document.getElementById('modalAddress').textContent = b.dataset.address;
+                document.getElementById('modalQr').src = b.dataset.qr;
+                document.getElementById('receiveModal').style.display = 'flex';
+            });
+        });
+
+        document.getElementById('showWithdrawModal')?.addEventListener('click', () => document.getElementById('withdrawModal').style.display = 'flex');
+        document.querySelectorAll('.close-modal-btn').forEach(b => b.addEventListener('click', () => b.closest('.modal-overlay').style.display = 'none'));
+        document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target === m) m.style.display = 'none'; }));
+    </script>
+</body>
+</html>

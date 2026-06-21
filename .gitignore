@@ -1,0 +1,3 @@
+cho "node_modules/
+.env
+uploads/" >> .gitignore

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Montreval Trust Holdings - My Trust Applications">
+    <link rel="icon" href="/images/favicon.png">
+    <title>My Trusts | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-light-gray: #cbd5e1;
+            --brand-border: rgba(255, 255, 255, 0.08);
+            --brand-bg-card: rgba(255, 255, 255, 0.03);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f172a;
+        }
+
+        html, body {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            font-family: 'DM Sans', sans-serif;
+            color: #e2e8f0;
+        }
+
+        .dashboard {
+            padding: 20px 0 60px;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--brand-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .user-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--brand-border);
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 80px; height: 80px;
+            margin: 0 auto 15px;
+            background: var(--brand-dark);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+        
+        .user-avatar i { font-size: 3rem; color: var(--brand-white); }
+        .user-profile h4 { margin-bottom: 4px; color: var(--brand-white); }
+        .user-profile p { color: var(--brand-gray); font-size: 0.9rem; }
+        
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 6px; }
+        
+        .sidebar-nav a {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; color: var(--brand-gray);
+            text-decoration: none; border-radius: 10px;
+            transition: all 0.3s; font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover { background: rgba(255, 255, 255, 0.05); color: var(--brand-white); }
+        .sidebar-nav li.active a { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-nav i { width: 20px; }
+
+        /* Content */
+        .content-area { padding: 0; }
+        .dashboard-header { margin-bottom: 25px; }
+        .dashboard-header h1 { color: var(--brand-white); font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 6px; }
+        .dashboard-header p { color: var(--brand-gray); }
+
+        /* Filter tabs */
+        .filter-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        
+        .filter-tab {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--brand-border);
+            border-radius: 100px;
+            color: var(--brand-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .filter-tab:hover { border-color: rgba(255,255,255,0.3); color: var(--brand-white); }
+        
+        .filter-tab.active {
+            background: var(--brand-dark);
+            color: var(--brand-white);
+            border-color: var(--brand-dark);
+        }
+
+        /* Info box */
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--brand-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex; gap: 15px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .info-box i { font-size: 1.5rem; color: var(--brand-white); }
+        .info-box strong { color: var(--brand-white); }
+        .info-box p { color: var(--brand-gray); margin: 5px 0 0; font-size: 0.9rem; }
+
+        /* Tables */
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        
+        .data-table { width: 100%; border-collapse: collapse; }
+        
+        .data-table th {
+            text-align: left; padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--brand-gray); font-weight: 500;
+            border-bottom: 1px solid var(--brand-border);
+            white-space: nowrap;
+        }
+        
+        .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--brand-border);
+            color: var(--brand-white);
+        }
+        
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* Badges */
+        .badge {
+            display: inline-block; padding: 4px 12px;
+            border-radius: 100px; font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-pending { background: rgba(245,158,11,0.2); color: var(--warning); }
+        .badge-approved { background: rgba(34,197,94,0.2); color: var(--success); }
+        .badge-active { background: rgba(34,197,94,0.2); color: var(--success); }
+        .badge-rejected { background: rgba(239,68,68,0.2); color: var(--danger); }
+        .badge-draft { background: rgba(148,163,184,0.2); color: var(--brand-gray); }
+        .badge-under_review { background: rgba(59,130,246,0.2); color: #3b82f6; }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center; padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px dashed var(--brand-border);
+        }
+        
+        .empty-state h3 { color: var(--brand-white); }
+        .empty-state p { color: var(--brand-gray); }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px; border-radius: 10px;
+            font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+            border: none; text-decoration: none;
+        }
+        .btn-primary { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.15); }
+        .btn-primary:hover { background: #2d4257; transform: translateY(-2px); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #16a34a; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--brand-white); }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.4); }
+        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+        .btn-lg { padding: 16px 32px; font-size: 1.1rem; }
+
+        .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--success); }
+
+        .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        /* Mobile */
+        .sidebar-toggle { display: none; width: 100%; padding: 12px; background: var(--brand-dark); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998; }
+        .sidebar-overlay.open { display: block; }
+
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; z-index: 9999; border-radius: 0; transition: left 0.3s; overflow-y: auto; }
+            .sidebar.open { left: 0; }
+            .sidebar-toggle { display: block; }
+        }
+
+        @media (max-width: 600px) {
+            .filter-tab { padding: 6px 14px; font-size: 0.8rem; }
+            .action-buttons .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================= HEADER ========================= -->
+    <header class="header header-layout2">
+        <div class="header-topbar d-none d-sm-block">
+            <div class="container-fluid h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-12 d-flex align-items-center justify-content-between">
+                        <ul class="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
+                            <li class="d-flex align-items-center">
+                                <span>Your trusted partner for secure wealth growth & financial freedom.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg sticky-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/"><img src="/images/logo.png" class="logo-dark" alt="Montreval Trust Holdings"></a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard">
+        <div class="container">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i> Menu</button>
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <div class="dashboard-grid">
+                <!-- Sidebar -->
+                <div class="sidebar" id="sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4><%= user.fullName %></h4>
+                        <p><%= user.email %></p>
+                    </div>
+                    <ul class="sidebar-nav">
+                        <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="/user/kyc"><i class="fas fa-id-card"></i> Verification</a></li>
+                        <li class="active"><a href="/user/trusts"><i class="fas fa-shield-haltered"></i> My Trusts</a></li>
+                        <li><a href="/user/wallet"><i class="fas fa-wallet"></i> Wallet</a></li>
+                        <li><a href="/user/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- Main Content -->
+                <div class="content-area">
+                    <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div>
+                            <h1>My Trusts</h1>
+                            <p>View and manage all your trust applications and active trusts</p>
+                        </div>
+                        <a href="/apply" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> New Trust Application
+                        </a>
+                    </div>
+
+                    <% if (locals.success) { %>
+                        <div class="alert alert-success"><i class="fas fa-check-circle"></i> <%= success %></div>
+                    <% } %>
+
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <a href="/user/trusts" class="filter-tab <%= filter === 'all' ? 'active' : '' %>">All</a>
+                        <a href="/user/trusts?status=pending" class="filter-tab <%= filter === 'pending' ? 'active' : '' %>">Pending</a>
+                        <a href="/user/trusts?status=under_review" class="filter-tab <%= filter === 'under_review' ? 'active' : '' %>">Under Review</a>
+                        <a href="/user/trusts?status=approved" class="filter-tab <%= filter === 'approved' ? 'active' : '' %>">Approved</a>
+                        <a href="/user/trusts?status=active" class="filter-tab <%= filter === 'active' ? 'active' : '' %>">Active</a>
+                        <a href="/user/trusts?status=rejected" class="filter-tab <%= filter === 'rejected' ? 'active' : '' %>">Rejected</a>
+                    </div>
+
+                    <% if (applications && applications.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Trust Name</th>
+                                        <th>Type</th>
+                                        <th>Jurisdiction</th>
+                                        <th>Submitted</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% applications.forEach(app => { %>
+                                        <tr>
+                                            <td>
+                                                <strong><%= app.trustName %></strong>
+                                                <% if (app.alternativeTrustName1) { %>
+                                                    <br><small style="color: var(--brand-gray);">Alt: <%= app.alternativeTrustName1 %></small>
+                                                <% } %>
+                                            </td>
+                                            <td><%= app.trustType ? app.trustType.replace(/_/g, ' ') : 'N/A' %></td>
+                                            <td><%= app.jurisdiction || 'N/A' %></td>
+                                            <td><%= app.submittedAt ? app.submittedAt.toLocaleDateString() : 'Draft' %></td>
+                                            <td>
+                                                <span class="badge badge-<%= app.status %>"><%= app.status.replace(/_/g, ' ') %></span>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <a href="/user/trusts/<%= app._id %>" class="btn btn-sm btn-outline">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                    <% if (app.status === 'approved' && !app.walletAssigned) { %>
+                                                        <a href="/user/wallet/create?trust=<%= app._id %>" class="btn btn-sm btn-success">
+                                                            <i class="fas fa-wallet"></i> Create Wallet
+                                                        </a>
+                                                    <% } %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-shield-haltered" style="font-size: 4rem; color: var(--brand-gray); margin-bottom: 20px;"></i>
+                            <h3>No trust applications yet</h3>
+                            <p>Establish your first crypto trust to secure and protect your digital assets.</p>
+                            <a href="/apply" class="btn btn-primary btn-lg" style="margin-top: 20px;">
+                                <i class="fas fa-plus-circle"></i> Establish Trust
+                            </a>
+                        </div>
+                    <% } %>
+
+                    <!-- Info Box for Approved Trusts without Wallet -->
+                    <% const approvedWithoutWallet = applications?.filter(a => a.status === 'approved' && !a.walletAssigned) || []; %>
+                    <% if (approvedWithoutWallet.length > 0) { %>
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>You have <%= approvedWithoutWallet.length %> approved trust<%= approvedWithoutWallet.length > 1 ? 's' : '' %> ready for wallet creation.</strong>
+                                <p>Click "Create Wallet" next to your approved trust to claim your crypto wallet.</p>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= FOOTER ========================= -->
+    <footer class="footer">
+        <div class="footer-secondary">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="footer-copyrights my-2">
+                            <span class="fz-14">&copy; 2026 Montreval Trust Holdings. All Rights Reserved.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/libraries.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        if (sidebarToggle && sidebar && sidebarOverlay) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.add('open');
+                sidebarOverlay.classList.add('open');
+            });
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('open');
+            });
+        }
+    </script>
+</body>
+</html>

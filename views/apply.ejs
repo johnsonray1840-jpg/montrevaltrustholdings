@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Establish your crypto trust with Montreval Trust Holdings - Secure wealth preservation and digital asset protection.">
+    
+    <link rel="icon" href="/images/favicon.png">
+    <title>Establish Your Trust | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-light-gray: #cbd5e1;
+            --brand-border: rgba(255, 255, 255, 0.12);
+            --brand-bg-card: rgba(255, 255, 255, 0.03);
+            --step-active: #223140;
+            --step-completed: #223140;
+            --step-pending: rgba(255, 255, 255, 0.08);
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+        
+        body {
+            background: #0f172a;
+        }
+        
+        .apply-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .progress-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .progress-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .progress-header p {
+            color: #94a3b8;
+            font-size: 1rem;
+            max-width: 650px;
+            margin: 10px auto 0;
+            line-height: 1.6;
+        }
+
+        /* Step Indicator */
+        .steps-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        
+        .steps-indicator {
+            display: flex;
+            justify-content: space-between;
+            min-width: 700px;
+            position: relative;
+        }
+        
+        .steps-indicator::before {
+            content: '';
+            position: absolute;
+            top: 22px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 0;
+        }
+        
+        .step-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            min-width: 70px;
+        }
+        
+        .step-circle {
+            width: 44px;
+            height: 44px;
+            background: var(--step-pending);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            transition: all 0.3s;
+        }
+        
+        .step-item.active .step-circle {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #223140;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+        
+        .step-item.completed .step-circle {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #223140;
+        }
+        
+        .step-label {
+            font-size: 0.72rem;
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        
+        .step-item.active .step-label {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .step-item.completed .step-label {
+            color: #94a3b8;
+        }
+
+        /* Form card */
+        .form-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            color: #e2e8f0;
+        }
+        
+        .form-card h2 {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            margin-bottom: 10px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-card h2 i {
+            color: #ffffff;
+            font-size: 1.3rem;
+        }
+        
+        .form-card h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .form-card p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .step-pane {
+            display: none;
+        }
+        
+        .step-pane.active {
+            display: block;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #ffffff;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            color: #e2e8f0;
+        }
+        
+        .info-box.warning {
+            background: rgba(239, 68, 68, 0.05);
+            border-left-color: #ef4444;
+        }
+        
+        .info-box i {
+            color: #ffffff;
+            margin-right: 8px;
+        }
+        
+        .info-box strong {
+            color: #ffffff;
+        }
+        
+        .rule-list {
+            list-style: none;
+            margin-top: 10px;
+            padding-left: 0;
+        }
+        
+        .rule-list li {
+            padding: 6px 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        .rule-list i.fa-check {
+            color: #22c55e;
+            margin-right: 10px;
+        }
+
+        /* Trust Type cards */
+        .trust-type-card {
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+        
+        .trust-type-card:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        
+        .trust-type-card.selected {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.06);
+        }
+        
+        .trust-type-card input[type="radio"] {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            accent-color: #ffffff;
+            transform: scale(1.3);
+        }
+        
+        .trust-type-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        
+        .trust-type-card strong {
+            font-size: 1.1rem;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .trust-type-card .trust-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Form rows */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.30);
+        }
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        select.form-control option {
+            background: #1a1f2e;
+            color: #fff;
+        }
+        
+        .field-hint {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+               /* Date input fix */
+               input[type="date"] {
+            color-scheme: dark;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+        }
+        input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+            color: #ffffff;
+        }
+        input[type="date"]::-webkit-datetime-edit-text,
+        input[type="date"]::-webkit-datetime-edit-month-field,
+        input[type="date"]::-webkit-datetime-edit-day-field,
+        input[type="date"]::-webkit-datetime-edit-year-field {
+            color: #ffffff;
+        }
+
+        /* Beneficiary management */
+        .beneficiary-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .beneficiary-card .remove-beneficiary {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(239, 68, 68, 0.12);
+            border: none;
+            color: #ef4444;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .beneficiary-card .remove-beneficiary:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        
+        .btn-add-beneficiary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.20);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-beneficiary:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.40);
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: #223140;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-primary:hover {
+            background: #2d4257;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            color: #ffffff;
+        }
+        
+        .btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.40);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn-success {
+            background: #ffffff;
+            color: #223140;
+        }
+        
+        .btn-success:hover {
+            background: #e2e8f0;
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        /* Signup wall */
+        .signup-wall-premium {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.20);
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        
+        .signup-wall-premium i {
+            color: #ffffff !important;
+        }
+        
+        .signup-wall-premium h3 {
+            margin: 15px 0 10px;
+            color: #ffffff;
+        }
+        
+        .signup-wall-premium p {
+            color: #94a3b8;
+        }
+
+        /* Summary box */
+        .summary-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .summary-box h4 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.9rem;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-item span:first-child {
+            color: #94a3b8;
+        }
+        
+        .summary-item span:last-child {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .apply-container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+            .form-card {
+                padding: 20px 16px;
+                border-radius: 16px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .form-row.three-col {
+                grid-template-columns: 1fr;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- ========================= HEADER ========================= -->
+        <header class="header header-layout2">
+            <div class="header-topbar d-none d-sm-block">
+                <div class="container-fluid h-100">
+                    <div class="row align-items-center h-100">
+                        <div class="col-12 d-flex align-items-center justify-content-between">
+                            <ul class="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
+                                <li class="d-flex align-items-center">
+                                    <span>Your trusted partner for secure wealth growth & financial freedom.</span>
+                                    <a href="/auth/signup" class="btn btn-link btn-white">
+                                        <span>Start Investing</span>
+                                        <i aria-hidden="true" class="icon-arrow-right2"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center">
+                                <ul class="social-icons list-unstyled mb-0">
+                                    <li><a href="#"><i aria-hidden="true" class="social-icon icon-facebook-circle"></i></a></li>
+                                    <li><a href="#"><i aria-hidden="true" class="social-icon icon-twitter-circle"></i></a></li>
+                                    <li><a href="#"><i aria-hidden="true" class="social-icon icon-linkedin-circle"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="navbar navbar-expand-lg sticky-navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/logo.png" class="logo-dark" alt="Montreval Trust Holdings">
+                    </a>
+                    <button class="navbar-toggler" type="button" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="menu-lines"><span></span></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="mainNavigation">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a href="/" class="nav-item-link">Home</a></li>
+                            <li class="nav-item"><a href="/about" class="nav-item-link">About</a></li>
+                            <li class="nav-item"><a href="/plans" class="nav-item-link">Plans</a></li>
+                            <li class="nav-item"><a href="/contact" class="nav-item-link">Contact</a></li>
+                            <% if (locals.user) { %>
+                                <li class="nav-item"><a href="/user/dashboard" class="nav-item-link">Dashboard</a></li>
+                            <% } else { %>
+                                <li class="nav-item"><a href="/auth/login" class="nav-item-link">Login</a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- ========================= TRUST APPLICATION FORM ========================= -->
+        <div class="apply-container">
+            <div class="progress-header">
+                <h1>&#x1F512; Establish Your Crypto Trust</h1>
+                <p>Montreval Trust Holdings — Secure Digital Asset Protection, Wealth Preservation & Legacy Planning for the Modern Investor</p>
+            </div>
+
+            <!-- 7-Step Indicator -->
+            <div class="steps-wrapper">
+                <div class="steps-indicator">
+                    <div class="step-item active" data-step="1"><div class="step-circle">1</div><div class="step-label">Trust Type</div></div>
+                    <div class="step-item" data-step="2"><div class="step-circle">2</div><div class="step-label">Trust Name</div></div>
+                    <div class="step-item" data-step="3"><div class="step-circle">3</div><div class="step-label">Settlor</div></div>
+                    <div class="step-item" data-step="4"><div class="step-circle">4</div><div class="step-label">Beneficiaries</div></div>
+                    <div class="step-item" data-step="5"><div class="step-circle">5</div><div class="step-label">Trustee</div></div>
+                    <div class="step-item" data-step="6"><div class="step-circle">6</div><div class="step-label">Assets & Purpose</div></div>
+                    <div class="step-item" data-step="7"><div class="step-circle">7</div><div class="step-label">Review & Submit</div></div>
+                </div>
+            </div>
+
+            <form id="trustForm" method="POST" action="/trust/submit" enctype="multipart/form-data">
+                <% const sd = typeof savedData !== 'undefined' ? savedData : {}; %>
+
+                <!-- ===== STEP 1: TRUST TYPE ===== -->
+                <div class="form-card step-pane active" data-step="1">
+                    <h2><i class="fas fa-shield-haltered"></i> Select Trust Structure</h2>
+                    <p>Choose the trust type that aligns with your asset protection and wealth preservation goals.</p>
+                    
+                    <div class="trust-type-selection">
+                        <label class="trust-type-card <%= sd.trustType == 'revocable' ? 'selected' : '' %>">
+                            <input type="radio" name="trustType" value="revocable" <%= sd.trustType == 'revocable' ? 'checked' : '' %> required>
+                            <div class="trust-type-icon"><i class="fas fa-edit"></i></div>
+                            <strong>Revocable Living Trust</strong>
+                            <p class="trust-desc">Flexible structure — you maintain control and can modify terms during your lifetime. Ideal for crypto portfolios with evolving strategies.</p>
+                        </label>
+
+                        <label class="trust-type-card <%= sd.trustType == 'irrevocable' ? 'selected' : '' %>">
+                            <input type="radio" name="trustType" value="irrevocable" <%= sd.trustType == 'irrevocable' ? 'checked' : '' %> required>
+                            <div class="trust-type-icon"><i class="fas fa-lock"></i></div>
+                            <strong>Irrevocable Trust</strong>
+                            <p class="trust-desc">Maximum asset protection — assets are fully shielded from creditors and legal claims. Best for long-term crypto cold storage holdings.</p>
+                        </label>
+
+                        <label class="trust-type-card <%= sd.trustType == 'asset_protection' ? 'selected' : '' %>">
+                            <input type="radio" name="trustType" value="asset_protection" <%= sd.trustType == 'asset_protection' ? 'checked' : '' %> required>
+                            <div class="trust-type-icon"><i class="fas fa-shield-virus"></i></div>
+                            <strong>Asset Protection Trust</strong>
+                            <p class="trust-desc">Specialized shield for high-value digital assets. Multi-signature governance with cold storage integration.</p>
+                        </label>
+
+                        <label class="trust-type-card <%= sd.trustType == 'digital_asset' ? 'selected' : '' %>">
+                            <input type="radio" name="trustType" value="digital_asset" <%= sd.trustType == 'digital_asset' ? 'checked' : '' %> required>
+                            <div class="trust-type-icon"><i class="fas fa-coins"></i></div>
+                            <strong>Digital Asset Trust</strong>
+                            <p class="trust-desc">Purpose-built for cryptocurrency, NFTs, and tokenized assets. Includes wallet integration and smart contract governance.</p>
+                        </label>
+
+                        <label class="trust-type-card <%= sd.trustType == 'charitable' ? 'selected' : '' %>">
+                            <input type="radio" name="trustType" value="charitable" <%= sd.trustType == 'charitable' ? 'checked' : '' %> required>
+                            <div class="trust-type-icon"><i class="fas fa-heart"></i></div>
+                            <strong>Charitable Remainder Trust</strong>
+                            <p class="trust-desc">Generate income now while designating crypto assets for philanthropic causes. Tax-efficient wealth transfer.</p>
+                        </label>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Not sure?</strong> Schedule a complimentary consultation with our trust specialists who will guide you to the optimal structure.
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-primary next-step">Continue to Trust Name <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 2: TRUST NAME & JURISDICTION ===== -->
+                <div class="form-card step-pane" data-step="2">
+                    <h2><i class="fas fa-file-signature"></i> Name Your Trust</h2>
+                    
+                    <div class="info-box">
+                        <i class="fas fa-globe"></i>
+                        <strong>Jurisdiction Selection</strong> — We support trust formation in crypto-friendly jurisdictions with strong asset protection laws.
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Trust Jurisdiction *</label>
+                            <select name="jurisdiction" class="form-control" required>
+                                <option value="">Select Jurisdiction</option>
+                                <option value="WY" <%= sd.jurisdiction == 'WY' ? 'selected' : '' %>>Wyoming (Crypto Trust Haven — Recommended)</option>
+                                <option value="SD" <%= sd.jurisdiction == 'SD' ? 'selected' : '' %>>South Dakota (Premier Trust Jurisdiction)</option>
+                                <option value="DE" <%= sd.jurisdiction == 'DE' ? 'selected' : '' %>>Delaware (Business-Friendly)</option>
+                                <option value="NV" <%= sd.jurisdiction == 'NV' ? 'selected' : '' %>>Nevada (Asset Protection)</option>
+                                <option value="CK" <%= sd.jurisdiction == 'CK' ? 'selected' : '' %>>Cook Islands (Offshore Protection)</option>
+                            </select>
+                            <div class="field-hint">Wyoming and South Dakota offer the strongest digital asset trust protections.</div>
+                        </div>
+                    </div>
+
+                    <h3>Trust Name</h3>
+                    <div class="info-box">
+                        <i class="fas fa-gavel"></i>
+                        <strong>Naming Guidelines:</strong>
+                        <ul class="rule-list">
+                            <li><i class="fas fa-check"></i> Should reflect the trust's purpose and family legacy</li>
+                            <li><i class="fas fa-check"></i> Avoid generic names that may conflict with existing trusts</li>
+                            <li><i class="fas fa-check"></i> We verify name availability before filing</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Primary Trust Name *</label>
+                        <input type="text" name="trustName" class="form-control" value="<%= sd.trustName || '' %>" placeholder="e.g., The Satoshi Digital Legacy Trust" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alternative Name 1 *</label>
+                        <input type="text" name="alternativeTrustName1" class="form-control" value="<%= sd.alternativeTrustName1 || '' %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alternative Name 2 *</label>
+                        <input type="text" name="alternativeTrustName2" class="form-control" value="<%= sd.alternativeTrustName2 || '' %>" required>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Settlor Info <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 3: SETTLOR ===== -->
+                <div class="form-card step-pane" data-step="3">
+                    <h2><i class="fas fa-user-circle"></i> Settlor / Grantor Details</h2>
+                    <p>The Settlor is the person creating and funding the trust. Your information is kept strictly confidential.</p>
+                    <div class="form-group">
+                        <label>Full Legal Name *</label>
+                        <input type="text" name="settlorName" class="form-control" value="<%= sd.settlorName || user?.fullName || '' %>" placeholder="As it appears on government ID" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Date of Birth *</label><input type="date" name="settlorDOB" class="form-control" value="<%= sd.settlorDOB || '' %>" required></div>
+                        <div class="form-group"><label>Nationality *</label><input type="text" name="settlorNationality" class="form-control" value="<%= sd.settlorNationality || '' %>" required></div>
+                    </div>
+                    <div class="form-group"><label>Residential Address *</label><input type="text" name="settlorAddress" class="form-control" value="<%= sd.settlorAddress || '' %>" placeholder="Street address" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>City *</label><input type="text" name="settlorCity" class="form-control" value="<%= sd.settlorCity || '' %>" required></div>
+                        <div class="form-group"><label>Country *</label><input type="text" name="settlorCountry" class="form-control" value="<%= sd.settlorCountry || '' %>" required></div>
+                    </div>
+                    <div class="form-group"><label>Email Address *</label><input type="email" name="settlorEmail" class="form-control" value="<%= sd.settlorEmail || user?.email || '' %>" required></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" name="settlorPhone" class="form-control" value="<%= sd.settlorPhone || '' %>"></div>
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Beneficiaries <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 4: BENEFICIARIES ===== -->
+                <div class="form-card step-pane" data-step="4">
+                    <h2><i class="fas fa-users"></i> Designate Beneficiaries</h2>
+                    <p>Add individuals or entities who will benefit from the trust assets.</p>
+                    <div class="info-box"><i class="fas fa-shield-alt"></i><strong>Crypto Trust Feature:</strong> You can designate wallet addresses for direct crypto distribution upon trust execution.</div>
+                    <div id="beneficiaries-container">
+                        <div class="beneficiary-card" data-index="0">
+                            <button type="button" class="remove-beneficiary d-none" title="Remove"><i class="fas fa-times"></i></button>
+                            <div class="form-row">
+                                <div class="form-group"><label>Full Name *</label><input type="text" name="beneficiary[0][name]" class="form-control" placeholder="Beneficiary name" required></div>
+                                <div class="form-group"><label>Relationship *</label><select name="beneficiary[0][relationship]" class="form-control" required><option value="">Select</option><option value="spouse">Spouse</option><option value="child">Child</option><option value="parent">Parent</option><option value="sibling">Sibling</option><option value="other_relative">Other Relative</option><option value="friend">Friend</option><option value="entity">Entity / Organization</option></select></div>
+                            </div>
+                            <div class="form-row three-col">
+                                <div class="form-group"><label>Allocation (%) *</label><input type="number" name="beneficiary[0][allocation]" class="form-control" placeholder="e.g., 50" min="1" max="100" required></div>
+                                <div class="form-group"><label>Email</label><input type="email" name="beneficiary[0][email]" class="form-control" placeholder="Beneficiary email"></div>
+                                <div class="form-group"><label>Crypto Wallet (Optional)</label><input type="text" name="beneficiary[0][walletAddress]" class="form-control" placeholder="0x... or bc1..."></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-beneficiary" id="addBeneficiary"><i class="fas fa-plus"></i> Add Another Beneficiary</button>
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Trustee <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 5: TRUSTEE ===== -->
+                <div class="form-card step-pane" data-step="5">
+                    <h2><i class="fas fa-user-tie"></i> Appoint Trustee</h2>
+                    <p>The Trustee manages and administers the trust according to its terms.</p>
+                    <div class="info-box"><i class="fas fa-building"></i><strong>Professional Trustee Option:</strong> Montreval Trust Holdings can serve as your corporate trustee.</div>
+                    <div class="form-group">
+                        <label>Trustee Type *</label>
+                        <select name="trusteeType" class="form-control" id="trusteeType" required>
+                            <option value="">Select Trustee Type</option>
+                            <option value="montreval" <%= sd.trusteeType == 'montreval' ? 'selected' : '' %>>Montreval Trust Holdings (Professional Corporate Trustee — Recommended)</option>
+                            <option value="individual" <%= sd.trusteeType == 'individual' ? 'selected' : '' %>>Individual Trustee</option>
+                            <option value="co_trustee" <%= sd.trusteeType == 'co_trustee' ? 'selected' : '' %>>Co-Trustees (Individual + Corporate)</option>
+                        </select>
+                    </div>
+                    <div id="individualTrusteeFields" style="display: none;">
+                        <h3>Individual Trustee Details</h3>
+                        <div class="form-group"><label>Full Legal Name *</label><input type="text" name="trusteeName" class="form-control" value="<%= sd.trusteeName || '' %>" placeholder="Trustee's full name"></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Email *</label><input type="email" name="trusteeEmail" class="form-control" value="<%= sd.trusteeEmail || '' %>"></div>
+                            <div class="form-group"><label>Phone</label><input type="tel" name="trusteePhone" class="form-control" value="<%= sd.trusteePhone || '' %>"></div>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>Successor Trustee</label><input type="text" name="successorTrustee" class="form-control" value="<%= sd.successorTrustee || '' %>" placeholder="Name of backup trustee"><div class="field-hint">Appointed if the primary trustee is unable to serve.</div></div>
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Assets <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 6: ASSETS & PURPOSE ===== -->
+                <div class="form-card step-pane" data-step="6">
+                    <h2><i class="fas fa-coins"></i> Trust Assets & Purpose</h2>
+                    <p>Describe the assets to be placed in the trust and define the trust's primary purpose.</p>
+                    <div class="info-box"><i class="fas fa-wallet"></i><strong>Crypto Asset Integration:</strong> Our platform supports direct cold wallet linking, multi-signature setup, and automated distribution protocols.</div>
+                    <div class="form-group"><label>Primary Trust Purpose *</label><select name="trustPurpose" class="form-control" required><option value="">Select Purpose</option><option value="wealth_preservation">Wealth Preservation & Asset Protection</option><option value="crypto_holding">Cryptocurrency & Digital Asset Holding</option><option value="estate_planning">Estate Planning & Inheritance</option><option value="defi_management">DeFi Yield & Staking Management</option><option value="nft_custody">NFT & Tokenized Asset Custody</option><option value="family_legacy">Family Legacy & Generational Wealth</option><option value="charitable">Charitable Giving</option><option value="other">Other</option></select></div>
+                    <div class="form-group"><label>If other, please describe</label><input type="text" name="trustPurposeOther" class="form-control" value="<%= sd.trustPurposeOther || '' %>"></div>
+                    <h3>Assets to Be Placed in Trust</h3>
+                    <div class="form-group"><label>Estimated Total Asset Value (USD) *</label><select name="estimatedValue" class="form-control" required><option value="">Select Range</option><option value="50k-100k">$50,000 - $100,000</option><option value="100k-500k">$100,000 - $500,000</option><option value="500k-1m">$500,000 - $1,000,000</option><option value="1m-5m">$1,000,000 - $5,000,000</option><option value="5m+">$5,000,000+</option></select></div>
+                    <div class="form-group"><label>Asset Types *</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="bitcoin"> Bitcoin (BTC)</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="ethereum"> Ethereum (ETH)</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="stablecoins"> Stablecoins (USDT/USDC)</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="nfts"> NFTs & Tokenized Assets</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="defi"> DeFi Positions / LP Tokens</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="real_estate"> Real Estate</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="stocks"> Stocks & Securities</label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-weight: 400; text-transform: none; cursor: pointer;"><input type="checkbox" name="assetTypes" value="cash"> Cash & Bank Accounts</label>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary next-step">Review & Submit <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 7: REVIEW & SUBMIT ===== -->
+                <div class="form-card step-pane" data-step="7">
+                    <h2><i class="fas fa-clipboard-check"></i> Review & Submit Trust Application</h2>
+                    <div class="summary-box">
+                        <h4><i class="fas fa-file-contract"></i> Trust Application Summary</h4>
+                        <div class="summary-item"><span>Trust Type:</span> <span id="summaryTrustType">-</span></div>
+                        <div class="summary-item"><span>Trust Name:</span> <span id="summaryTrustName">-</span></div>
+                        <div class="summary-item"><span>Jurisdiction:</span> <span id="summaryJurisdiction">-</span></div>
+                        <div class="summary-item"><span>Settlor:</span> <span id="summarySettlor">-</span></div>
+                        <div class="summary-item"><span>Trustee:</span> <span id="summaryTrustee">-</span></div>
+                        <div class="summary-item"><span>Purpose:</span> <span id="summaryPurpose">-</span></div>
+                        <div class="summary-item"><span>Estimated Value:</span> <span id="summaryValue">-</span></div>
+                    </div>
+                    <h3>Required Documentation</h3>
+                    <div class="info-box"><i class="fas fa-id-card"></i><strong>KYC Compliance:</strong> All trust formations require identity verification to comply with international AML/KYC regulations.</div>
+                    <div class="form-group"><label>Government-Issued Photo ID *</label><input type="file" name="idDocument" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required></div>
+                    <div class="form-group"><label>Proof of Address (Last 3 months) *</label><input type="file" name="addressProof" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required></div>
+                    <div class="form-group"><label>Source of Funds Declaration *</label><select name="sourceOfFunds" class="form-control" required><option value="">Select</option><option value="crypto_trading">Cryptocurrency Trading</option><option value="crypto_mining">Crypto Mining / Staking</option><option value="employment">Employment Income</option><option value="business">Business Profits</option><option value="inheritance">Inheritance</option><option value="investment">Traditional Investments</option><option value="other">Other</option></select></div>
+                    <% if (!locals.user) { %>
+                        <div class="signup-wall-premium">
+                            <i class="fas fa-lock" style="font-size: 3rem;"></i>
+                            <h3>Create Account to Complete Your Trust</h3>
+                            <p>Your progress is automatically saved. Sign up or log in to finalize your trust formation.</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
+                                <a href="/auth/signup" class="btn btn-primary btn-lg">Create Account</a>
+                                <a href="/auth/login" class="btn btn-outline btn-lg">Sign In</a>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="action-buttons" style="justify-content: space-between; align-items: center; width: 100%;">
+                            <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-shield-check"></i> Submit Trust Application — Processing Fee: $2,500</button>
+                        </div>
+                    <% } %>
+                </div>
+            </form>
+        </div>
+
+        <!-- ========================= FOOTER ========================= -->
+        <footer class="footer">
+            <div class="footer-primary"><div class="container"><div class="footer-top"><div class="row"><div class="col-sm-12 col-md-12 col-lg-6"><a href="/"><img src="/images/logo-light.png" alt="logo" class="footer-logo mt-20 mb-20"></a></div></div></div></div></div>
+            <div class="footer-secondary"><div class="container"><div class="row align-items-center"><div class="col-12"><div class="footer-copyrights my-2"><span class="fz-14">&copy; 2026 Montreval Trust Holdings. All Rights Reserved.</span></div></div></div></div></div>
+        </footer>
+
+    </div>
+
+    <button type="button" id="scrollTopBtn" class="btn btn-primary btn-primary-style2 scroll-btn" aria-label="Scroll to top"><i aria-hidden="true" class="icon-arrow-up"></i></button>
+
+    <script src="/assets/js/libraries.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+        (function() {
+            let currentStep = 1;
+            const totalSteps = 7;
+            const form = document.getElementById('trustForm');
+            const stepPanes = document.querySelectorAll('.step-pane');
+            const stepItems = document.querySelectorAll('.step-item');
+
+            function showStep(stepNumber) {
+                stepPanes.forEach(pane => pane.classList.remove('active'));
+                const targetPane = document.querySelector(`.step-pane[data-step="${stepNumber}"]`);
+                if (targetPane) targetPane.classList.add('active');
+                stepItems.forEach(item => {
+                    const itemStep = parseInt(item.getAttribute('data-step'));
+                    item.classList.remove('active', 'completed');
+                    if (itemStep === stepNumber) item.classList.add('active');
+                    if (itemStep < stepNumber) item.classList.add('completed');
+                });
+                currentStep = stepNumber;
+                const stepsIndicator = document.querySelector('.steps-indicator');
+                if (stepsIndicator) window.scrollTo({ top: stepsIndicator.offsetTop - 120, behavior: 'smooth' });
+            }
+
+            document.querySelectorAll('.next-step').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (currentStep < totalSteps) showStep(currentStep + 1);
+                    if (currentStep + 1 === totalSteps) updateSummary();
+                });
+            });
+
+            document.querySelectorAll('.prev-step').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (currentStep > 1) showStep(currentStep - 1);
+                });
+            });
+
+            document.querySelectorAll('.trust-type-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.trust-type-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = true;
+                });
+            });
+
+            let beneficiaryCount = 1;
+            const addBeneficiaryBtn = document.getElementById('addBeneficiary');
+            if (addBeneficiaryBtn) {
+                addBeneficiaryBtn.addEventListener('click', function() {
+                    const container = document.getElementById('beneficiaries-container');
+                    const index = beneficiaryCount;
+                    const card = document.createElement('div');
+                    card.className = 'beneficiary-card';
+                    card.setAttribute('data-index', index);
+                    card.innerHTML = `<button type="button" class="remove-beneficiary" title="Remove"><i class="fas fa-times"></i></button><div class="form-row"><div class="form-group"><label>Full Name *</label><input type="text" name="beneficiary[${index}][name]" class="form-control" required></div><div class="form-group"><label>Relationship *</label><select name="beneficiary[${index}][relationship]" class="form-control" required><option value="">Select</option><option value="spouse">Spouse</option><option value="child">Child</option><option value="parent">Parent</option><option value="sibling">Sibling</option><option value="other_relative">Other Relative</option><option value="friend">Friend</option><option value="entity">Entity / Organization</option></select></div></div><div class="form-row three-col"><div class="form-group"><label>Allocation (%) *</label><input type="number" name="beneficiary[${index}][allocation]" class="form-control" min="1" max="100" required></div><div class="form-group"><label>Email</label><input type="email" name="beneficiary[${index}][email]" class="form-control"></div><div class="form-group"><label>Crypto Wallet (Optional)</label><input type="text" name="beneficiary[${index}][walletAddress]" class="form-control"></div></div>`;
+                    container.appendChild(card);
+                    beneficiaryCount++;
+                    card.querySelector('.remove-beneficiary').addEventListener('click', function() { card.remove(); });
+                });
+            }
+
+            document.querySelectorAll('.remove-beneficiary').forEach(btn => {
+                btn.addEventListener('click', function() { this.closest('.beneficiary-card').remove(); });
+            });
+
+            const trusteeType = document.getElementById('trusteeType');
+            const individualFields = document.getElementById('individualTrusteeFields');
+            if (trusteeType && individualFields) {
+                trusteeType.addEventListener('change', function() {
+                    individualFields.style.display = (this.value === 'individual' || this.value === 'co_trustee') ? 'block' : 'none';
+                });
+            }
+
+            if (form) {
+                let saveTimeout;
+                form.addEventListener('change', function() {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        const formData = new FormData(form);
+                        const data = {};
+                        formData.forEach((value, key) => { data[key] = value; });
+                        fetch('/trust/save-draft', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(() => {});
+                    }, 1000);
+                });
+            }
+
+            function updateSummary() {
+                const trustTypeEl = document.querySelector('input[name="trustType"]:checked');
+                if (trustTypeEl) {
+                    const card = trustTypeEl.closest('.trust-type-card');
+                    const strong = card ? card.querySelector('strong') : null;
+                    const el = document.getElementById('summaryTrustType');
+                    if (el && strong) el.textContent = strong.textContent;
+                }
+                const jurisdiction = document.querySelector('select[name="jurisdiction"]');
+                const sj = document.getElementById('summaryJurisdiction');
+                if (sj && jurisdiction?.selectedOptions[0]) sj.textContent = jurisdiction.selectedOptions[0].text;
+                const tn = document.querySelector('input[name="trustName"]');
+                const stn = document.getElementById('summaryTrustName');
+                if (stn && tn) stn.textContent = tn.value || '-';
+                const sn = document.querySelector('input[name="settlorName"]');
+                const ss = document.getElementById('summarySettlor');
+                if (ss && sn) ss.textContent = sn.value || '-';
+                const tt = document.querySelector('select[name="trusteeType"]');
+                const st = document.getElementById('summaryTrustee');
+                if (st && tt?.selectedOptions[0]) st.textContent = tt.selectedOptions[0].text;
+                const tp = document.querySelector('select[name="trustPurpose"]');
+                const sp = document.getElementById('summaryPurpose');
+                if (sp && tp?.selectedOptions[0]) sp.textContent = tp.selectedOptions[0].text;
+                const tv = document.querySelector('select[name="estimatedValue"]');
+                const sv = document.getElementById('summaryValue');
+                if (sv && tv?.selectedOptions[0]) sv.textContent = tv.selectedOptions[0].text;
+            }
+
+            showStep(1);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-border: rgba(255, 255, 255, 0.08);
+            --brand-bg: rgba(255, 255, 255, 0.03);
+            --bg-dark: #0f172a;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-dark); font-family: 'DM Sans', sans-serif; color: #e2e8f0; min-height: 100vh; }
+
+        .dashboard { padding: 20px 0 60px; }
+        .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+
+        .sidebar {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 20px; padding: 24px; position: sticky; top: 100px;
+        }
+        .user-profile { padding: 20px; text-align: center; border-bottom: 1px solid var(--brand-border); margin-bottom: 20px; }
+        .user-avatar { width: 80px; height: 80px; margin: 0 auto 15px; background: var(--brand-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.15); }
+        .user-avatar i { font-size: 3rem; color: var(--brand-white); }
+        .user-profile h4 { color: var(--brand-white); margin-bottom: 4px; }
+        .user-profile p { color: var(--brand-gray); font-size: 0.9rem; }
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 6px; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--brand-gray); text-decoration: none; border-radius: 10px; font-size: 0.95rem; transition: all 0.2s; }
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.05); color: var(--brand-white); }
+        .sidebar-nav li.active a { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-nav i { width: 20px; }
+
+        .content-area { padding: 0; }
+        .dashboard-header h1 { color: var(--brand-white); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 5px; }
+        .dashboard-header p { color: var(--brand-gray); }
+
+        .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+        .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--success); }
+        .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); }
+
+        .settings-section {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 16px; padding: 30px; margin-bottom: 25px;
+        }
+        .settings-section h3 { color: var(--brand-white); font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .settings-section h4 { color: var(--brand-gray); font-size: 0.9rem; margin: 25px 0 15px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--brand-gray); font-size: 0.85rem; font-weight: 500; }
+
+        .form-control {
+            width: 100%; padding: 12px 14px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--brand-border);
+            border-radius: 10px; color: var(--brand-white); font-size: 0.9rem;
+            font-family: inherit;
+        }
+        .form-control:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); }
+        .form-control:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .btn {
+            padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; border: none; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.12); }
+        .btn-primary:hover { background: #2d4257; }
+        .btn-outline { background: transparent; border: 1px solid var(--brand-border); color: var(--brand-white); }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+        }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4><%= user.fullName %></h4>
+                        <p><%= user.email %></p>
+                    </div>
+                    <ul class="sidebar-nav">
+                        <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="/user/kyc"><i class="fas fa-id-card"></i> Verification</a></li>
+                        <li><a href="/user/trusts"><i class="fas fa-shield-haltered"></i> My Trusts</a></li>
+                        <li><a href="/user/wallet"><i class="fas fa-wallet"></i> Wallet</a></li>
+                        <li class="active"><a href="/user/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-area">
+                    <div class="dashboard-header">
+                        <h1>Account Settings</h1>
+                        <p>Manage your profile and security</p>
+                    </div>
+
+                    <% if (locals.success) { %><div class="alert alert-success"><i class="fas fa-check-circle"></i> <%= success %></div><% } %>
+                    <% if (locals.error) { %><div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <%= error %></div><% } %>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-user"></i> Profile Information</h3>
+                        <form action="/user/settings" method="POST">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" name="fullName" class="form-control" value="<%= formData.fullName %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email (cannot be changed)</label>
+                                <input type="email" class="form-control" value="<%= user.email %>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" name="phone" class="form-control" value="<%= formData.phone || '' %>">
+                            </div>
+                            <h4>Address</h4>
+                            <div class="form-group">
+                                <label>Street</label>
+                                <input type="text" name="street" class="form-control" value="<%= formData.address?.street || '' %>">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>City</label><input type="text" name="city" class="form-control" value="<%= formData.address?.city || '' %>"></div>
+                                <div class="form-group"><label>State</label><input type="text" name="state" class="form-control" value="<%= formData.address?.state || '' %>"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>ZIP Code</label><input type="text" name="zipCode" class="form-control" value="<%= formData.address?.zipCode || '' %>"></div>
+                                <div class="form-group"><label>Country</label><input type="text" class="form-control" value="USA" disabled></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-lock"></i> Change Password</h3>
+                        <form action="/user/settings/password" method="POST">
+                            <div class="form-group"><label>Current Password</label><input type="password" name="currentPassword" class="form-control" required></div>
+                            <div class="form-group"><label>New Password</label><input type="password" name="newPassword" class="form-control" required minlength="6"></div>
+                            <div class="form-group"><label>Confirm New Password</label><input type="password" name="confirmPassword" class="form-control" required></div>
+                            <button type="submit" class="btn btn-outline">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

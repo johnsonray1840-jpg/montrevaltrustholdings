@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Applications | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-border: rgba(255, 255, 255, 0.08);
+            --brand-bg: rgba(255, 255, 255, 0.03);
+            --bg-dark: #0f172a;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-dark);
+            font-family: 'DM Sans', sans-serif;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .admin-header {
+            background: var(--brand-dark);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-header .logo {
+            color: var(--brand-white);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-header .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--brand-white);
+            font-size: 0.9rem;
+        }
+
+        .admin-header .user-menu a {
+            color: var(--brand-gray);
+            text-decoration: none;
+        }
+
+        .admin-header .user-menu a:hover { color: var(--brand-white); }
+
+        /* Layout */
+        .admin-layout {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: rgba(255,255,255,0.02);
+            border-right: 1px solid var(--brand-border);
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .admin-sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: var(--brand-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-sidebar a:hover { background: rgba(255,255,255,0.03); color: var(--brand-white); }
+        .admin-sidebar a.active { background: rgba(255,255,255,0.05); color: var(--brand-white); border-left-color: var(--brand-white); font-weight: 600; }
+        .admin-sidebar a i { width: 20px; text-align: center; }
+
+        .admin-main {
+            flex: 1;
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .admin-main h1 {
+            font-size: 1.8rem;
+            color: var(--brand-white);
+            margin-bottom: 5px;
+        }
+
+        .admin-main .subtitle {
+            color: var(--brand-gray);
+            margin-bottom: 25px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .alert-success {
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: var(--danger);
+        }
+
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--brand-border);
+            border-radius: 100px;
+            color: var(--brand-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover { border-color: rgba(255,255,255,0.25); color: var(--brand-white); }
+        .filter-tab.active { background: var(--brand-dark); color: var(--brand-white); border-color: var(--brand-dark); }
+
+        /* Table */
+        .table-responsive { overflow-x: auto; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--brand-bg);
+            border: 1px solid var(--brand-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.03);
+            color: var(--brand-gray);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--brand-border);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--brand-border);
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table small { color: var(--brand-gray); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .badge-pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .badge-approved { background: rgba(34,197,94,0.15); color: var(--success); }
+        .badge-active { background: rgba(34,197,94,0.15); color: var(--success); }
+        .badge-rejected { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .badge-draft { background: rgba(148,163,184,0.15); color: var(--brand-gray); }
+        .badge-under_review { background: rgba(59,130,246,0.15); color: #60a5fa; }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--brand-border);
+            color: var(--brand-white);
+        }
+
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); }
+
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #16a34a; }
+
+        .btn-danger { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+        .btn-danger:hover { background: rgba(239,68,68,0.25); }
+
+        .action-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #1a1f2e;
+            border: 1px solid var(--brand-border);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 480px;
+            width: 90%;
+        }
+
+        .modal-content h3 { color: var(--brand-white); margin-bottom: 10px; }
+        .modal-content p { color: var(--brand-gray); margin-bottom: 15px; }
+
+        .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--brand-border);
+            border-radius: 10px;
+            color: var(--brand-white);
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .modal-content textarea:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
+
+        @media (max-width: 768px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--brand-border); }
+            .admin-main { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <a href="/admin/dashboard" class="logo">
+            <i class="fas fa-shield-haltered"></i> MONTREVAL
+        </a>
+        <div class="user-menu">
+            <span><i class="fas fa-user-shield"></i> Admin</span>
+            <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav>
+                <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/admin/kyc"><i class="fas fa-id-card"></i> KYC Verification</a>
+                <a href="/admin/plans"><i class="fas fa-box"></i> Plans</a>
+                <a href="/admin/trusts" class="active"><i class="fas fa-file-alt"></i> Trust Applications</a>
+                <!-- <a href="/admin/trusts"><i class="fas fa-shield-haltered"></i> Trust Management</a> -->
+                <a href="/admin/withdrawals"><i class="fas fa-money-bill-wave"></i> Withdrawals</a>
+                <a href="/admin/wallet-pool"><i class="fas fa-wallet"></i> Wallet Pool</a>
+                <a href="/admin/users"><i class="fas fa-users"></i> Users</a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="admin-main">
+            <h1>Trust Applications</h1>
+            <p class="subtitle">Review and manage submitted trust applications</p>
+
+            <% if (locals.success) { %>
+                <div class="alert alert-success"><i class="fas fa-check-circle"></i> <%= success %></div>
+            <% } %>
+            <% if (locals.error) { %>
+                <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+            <% } %>
+
+            <!-- Filter tabs -->
+            <div class="filter-tabs">
+                <a href="/admin/trusts" class="filter-tab <%= filter === 'all' ? 'active' : '' %>">All</a>
+                <a href="/admin/trusts?status=pending" class="filter-tab <%= filter === 'pending' ? 'active' : '' %>">Pending</a>
+                <a href="/admin/trusts?status=under_review" class="filter-tab <%= filter === 'under_review' ? 'active' : '' %>">Under Review</a>
+                <a href="/admin/trusts?status=approved" class="filter-tab <%= filter === 'approved' ? 'active' : '' %>">Approved</a>
+                <a href="/admin/trusts?status=active" class="filter-tab <%= filter === 'active' ? 'active' : '' %>">Active</a>
+                <a href="/admin/trusts?status=rejected" class="filter-tab <%= filter === 'rejected' ? 'active' : '' %>">Rejected</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Trust Name</th>
+                            <th>Type</th>
+                            <th>Submitted</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (applications && applications.length > 0) { %>
+                            <% applications.forEach(app => { %>
+                                <tr>
+                                    <td>
+                                        <strong><%= app.userId?.fullName || 'N/A' %></strong><br>
+                                        <small><%= app.userId?.email || '' %></small>
+                                    </td>
+                                    <td><%= app.trustName %></td>
+                                    <td><%= app.trustType ? app.trustType.replace(/_/g, ' ') : 'N/A' %></td>
+                                    <td><%= app.submittedAt ? app.submittedAt.toLocaleDateString() : 'Not submitted' %></td>
+                                    <td>
+                                        <span class="badge badge-<%= app.status %>"><%= app.status.replace(/_/g, ' ') %></span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="/admin/trusts/<%= app._id %>" class="btn btn-outline">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                            <% if (app.status === 'pending') { %>
+                                                <form action="/admin/trusts/<%= app._id %>/approve" method="POST" style="display:inline;">
+                                                    <button type="submit" class="btn btn-success">
+                                                        <i class="fas fa-check"></i> Approve
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn btn-danger show-reject-modal" 
+                                                        data-app-id="<%= app._id %>" 
+                                                        data-trust-name="<%= app.trustName %>">
+                                                    <i class="fas fa-times"></i> Reject
+                                                </button>
+                                            <% } %>
+                                            <form action="/admin/trusts/<%= app._id %>/delete" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-outline" onclick="return confirm('Delete this application?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--brand-gray);">No applications found</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Reject Modal -->
+    <div id="rejectModal" class="modal">
+        <div class="modal-content">
+            <h3>Reject Application</h3>
+            <p>Trust: <strong id="modalTrustName" style="color:var(--brand-white);"></strong></p>
+            <form id="rejectForm" method="POST">
+                <textarea name="rejectionReason" placeholder="Reason for rejection (emailed to user)" rows="4" required></textarea>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-danger">Confirm Reject</button>
+                    <button type="button" class="btn btn-outline hide-reject-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('rejectModal');
+        const modalTrustName = document.getElementById('modalTrustName');
+        const rejectForm = document.getElementById('rejectForm');
+
+        document.querySelectorAll('.show-reject-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const appId = this.getAttribute('data-app-id');
+                const trustName = this.getAttribute('data-trust-name');
+                modalTrustName.textContent = trustName;
+                rejectForm.action = '/admin/trusts/' + appId + '/reject';
+                modal.style.display = 'flex';
+            });
+        });
+
+        document.querySelectorAll('.hide-reject-modal').forEach(btn => {
+            btn.addEventListener('click', () => modal.style.display = 'none');
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

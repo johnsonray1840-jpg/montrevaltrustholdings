@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description"
+    content="Montreval Trust Holdings provides secure wealth management, investment planning, asset protection, retirement strategies, and trusted financial solutions for individuals and businesses worldwide." />
+
+  <meta name="keywords"
+    content="wealth management, trust fund, investment solutions, retirement planning, financial services, asset management, portfolio management, secure investments">
+
+  <link rel="icon" href="/images/favicon.png">
+
+  <title>Login | Montreval Trust Holdings</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700">
+
+  <link rel="stylesheet" href="/assets/css/libraries.css">
+  <link rel="stylesheet" href="/assets/css/icons.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Smartsupp Live Chat script -->
+  <script type='text/javascript'>
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'cb0c9c8ce457aad40608a5f53c73a3091f6e96c1';
+    window.smartsupp||(function(d) {
+    var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+    s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+    c.type='text/javascript';c.charset='utf-8';c.async=true;
+    c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+  </script>
+
+  <style>
+    /* ============ AUTH BACKGROUND ============ */
+    .auth_section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at top left, rgba(0, 180, 255, 0.12), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(120, 80, 255, 0.10), transparent 50%),
+        #0b1220;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth_section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(240, 185, 11, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* ============ GLASS CARD ============ */
+    .auth_glass_card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============ HEADER ============ */
+    .auth_header {
+      margin-bottom: 30px;
+    }
+
+    .auth_header h5 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .auth_header .welcome-text {
+      color: #8892a8;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    /* ============ SWITCH LINK ============ */
+    .auth_switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .auth_switch span {
+      color: #8892a8;
+      font-size: 0.9rem;
+    }
+
+    .auth_switch a {
+      color: #f0b90b;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.3s;
+    }
+
+    .auth_switch a:hover {
+      color: #f59e0b;
+    }
+
+    /* ============ ALERTS ============ */
+    .alert {
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+    }
+
+    .alert-error {
+      background: rgba(220, 53, 69, 0.12);
+      border-color: rgba(220, 53, 69, 0.3);
+      color: #f87171;
+    }
+
+    .alert-success {
+      background: rgba(40, 167, 69, 0.12);
+      border-color: rgba(40, 167, 69, 0.3);
+      color: #4ade80;
+    }
+
+    .alert i {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ============ INPUTS ============ */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .auth_input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .auth_input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .auth_input:focus {
+      border-color: rgba(240, 185, 11, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 20px rgba(240, 185, 11, 0.08);
+    }
+
+    /* ============ PASSWORD WRAPPER ============ */
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .auth_input {
+      padding-right: 45px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 8px;
+      z-index: 2;
+      transition: color 0.3s;
+    }
+
+    .password-toggle:hover {
+      color: #f0b90b;
+    }
+
+    /* ============ SUBMIT BUTTON ============ */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f0b90b, #f59e0b);
+      color: #000;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #f59e0b, #f0b90b);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(240, 185, 11, 0.25);
+    }
+
+    /* ============ FORM FOOTER ============ */
+    .auth_footer {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .auth_footer p {
+      color: #8892a8;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .auth_footer a {
+      color: #f0b90b;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .auth_footer a:hover {
+      text-decoration: underline;
+    }
+
+    .forgot-link {
+      color: #8892a8 !important;
+      font-weight: 400 !important;
+      font-size: 0.85rem;
+      transition: color 0.3s;
+    }
+
+    .forgot-link:hover {
+      color: #f0b90b !important;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 576px) {
+      .auth_glass_card {
+        padding: 25px 20px !important;
+      }
+
+      .auth_header h5 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <!-- =========================
+        Header
+    =========================== -->
+    <header class="header header-layout2">
+
+      <!-- Topbar -->
+      <div class="header-topbar d-none d-sm-block">
+        <div class="container-fluid h-100">
+          <div class="row align-items-center h-100">
+
+            <div class="col-12 d-flex align-items-center justify-content-between">
+
+              <ul class="contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
+                <li class="d-flex align-items-center">
+                  <span>Your trusted partner for secure wealth growth & financial freedom.</span>
+                  <a href="/auth/signup" class="btn btn-link btn-white">
+                    <span>Start Investing</span>
+                    <i aria-hidden="true" class="icon-arrow-right2"></i>
+                  </a>
+                </li>
+              </ul>
+
+              <div class="d-flex align-items-center">
+                <ul class="social-icons list-unstyled mb-0">
+                  <li><a href="#"><i aria-hidden="true" class="social-icon icon-facebook-circle"></i><span class="social-text">Facebook</span></a></li>
+                  <li><a href="#"><i aria-hidden="true" class="social-icon icon-twitter-circle"></i><span class="social-text">Twitter</span></a></li>
+                  <li><a href="#"><i aria-hidden="true" class="social-icon icon-linkedin-circle"></i><span class="social-text">LinkedIn</span></a></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg sticky-navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="/images/logo.png" class="logo-dark" alt="Montreval Trust Holdings">
+          </a>
+          <button class="navbar-toggler" type="button" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="menu-lines"><span></span></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="mainNavigation">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a href="/" class="nav-item-link">Home</a></li>
+              <li class="nav-item has-dropdown">
+                <a href="#" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle nav-item-link">Company</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="/about" class="nav-item-link">About Us</a></li>
+                  <li class="nav-item"><a href="/faq" class="nav-item-link">FAQs</a></li>
+                  <li class="nav-item"><a href="/contact" class="nav-item-link">Contact Us</a></li>
+                </ul>
+              </li>
+              <li class="nav-item"><a href="/contact" class="nav-item-link">Contact</a></li>
+              <li class="nav-item"><a href="/auth/signup" class="nav-item-link">Sign Up</a></li>
+            </ul>
+            <button class="close-mobile-menu d-flex justify-content-center align-items-center d-lg-none" aria-label="Close menu">
+              <i aria-hidden="true" class="icon-close"></i>
+            </button>
+          </div>
+
+          <ul class="navbar-actions d-flex flex-row-reverse flex-lg-row align-items-center list-unstyled mb-0">
+            <li>
+              <a href="/auth/signup" class="btn btn-primary action-btn action-btn-contact">
+                <span>Open Account</span>
+                <i aria-hidden="true" class="icon-arrow-right2"></i>
+              </a>
+            </li>
+            <li>
+              <button class="action-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchOffcanvas" aria-controls="searchOffcanvas" aria-label="Search">
+                <i aria-hidden="true" class="icon-search"></i>
+              </button>
+            </li>
+            <li>
+              <button class="action-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenuOffcanvas" aria-controls="sideMenuOffcanvas" aria-label="Open menu">
+                <i aria-hidden="true" class="icon-menu fz-26"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- =========================
+        LOGIN FORM SECTION
+    =========================== -->
+    <section class="auth_section pt-120 pb-120">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6 col-xl-5">
+
+            <!-- GLASS CARD -->
+            <div class="auth_glass_card rounded-20 p-4 p-sm-5 p-md-6">
+
+              <!-- HEADER -->
+              <div class="auth_header">
+                <h5>Welcome Back</h5>
+                <p class="welcome-text">Sign in to your Montreval Trust Holdings account</p>
+              </div>
+
+              <!-- SWITCH LINK -->
+              <div class="auth_switch">
+                <span>Don't have an account?</span>
+                <a href="/auth/signup">
+                  Create one <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+
+              <!-- ERROR MESSAGE (from backend) -->
+              <% if (locals.error) { %>
+                <div class="alert alert-error">
+                  <i class="fas fa-exclamation-circle"></i> <%= error %>
+                </div>
+              <% } %>
+
+              <!-- SUCCESS MESSAGE -->
+              <% if (locals.success) { %>
+                <div class="alert alert-success">
+                  <i class="fas fa-check-circle"></i> <%= success %>
+                </div>
+              <% } %>
+
+              <!-- LOGIN FORM - Connected to Backend -->
+              <form action="/auth/login" method="POST" novalidate>
+
+                <!-- Email -->
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" class="auth_input" 
+                    placeholder="you@example.com" required autofocus>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <div class="password-wrapper">
+                    <input type="password" id="password" name="password" class="auth_input" 
+                      placeholder="••••••••" required>
+                    <button type="button" class="password-toggle" data-target="password" tabindex="-1">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">
+                  <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+
+              </form>
+
+              <!-- Footer Links -->
+              <div class="auth_footer">
+                <p><a href="/auth/forgot-password" class="forgot-link">Forgot your password?</a></p>
+                <p>Don't have an account? <a href="/auth/signup">Create one</a></p>
+              </div>
+
+            </div>
+            <!-- /.auth_glass_card -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.auth_section -->
+
+    <!-- ========================
+      Footer
+    =========================== -->
+    <footer class="footer">
+      <div class="footer-primary">
+        <div class="container">
+          <div class="footer-top">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <a href="/">
+                  <img src="/images/logo-light.png" alt="logo" class="footer-logo mt-20 mb-20">
+                </a>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <ul class="contact-list list-unstyled d-flex flex-wrap justify-content-between align-items-center mt-20 mb-20">
+                  <li><a href="mailto:support@montrevaltrustholdings.org">support@montrevaltrustholdings.org</a></li>
+                  <li>
+                    <ul class="social-icons social-icons-layout2 list-unstyled mb-0">
+                      <li><a href="#"><i aria-hidden="true" class="social-icon icon-facebook-circle"></i></a></li>
+                      <li><a href="#"><i aria-hidden="true" class="social-icon icon-twitter-circle"></i></a></li>
+                      <li><a href="#"><i aria-hidden="true" class="social-icon icon-youtube-circle"></i></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-4">
+              <div class="footer-widget-about">
+                <span class="footer-widget-title">Secure your wealth, protect your assets, and structure your legacy with professionally built trust solutions.</span>
+                <form class="newsletter-form position-relative">
+                  <input type="email" class="form-control" placeholder="Your Email Address" aria-label="Your Email Address">
+                  <button type="submit" class="btn btn-primary btn-primary-style2 btn-submit" aria-label="Subscribe">
+                    <i aria-hidden="true" class="icon-arrow-right2"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-2 offset-lg-2">
+              <div class="footer-widget-nav">
+                <span class="footer-widget-title">Trust Guide</span>
+                <nav>
+                  <ul class="footer-nav-list list-unstyled">
+                    <li><a href="/what-is-trust">What is a Trust</a></li>
+                    <li><a href="/benefits-of-trust">Benefits</a></li>
+                    <li><a href="/types-of-trust">Types of Trust</a></li>
+                    <li><a href="/revocable-trust">Revocable Trust</a></li>
+                    <li><a href="/irrevocable-trust">Irrevocable Trust</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-2">
+              <div class="footer-widget-nav">
+                <span class="footer-widget-title">Services</span>
+                <nav>
+                  <ul class="footer-nav-list list-unstyled">
+                    <li><a href="/asset-protection">Asset Protection</a></li>
+                    <li><a href="/digital-assets">Digital Asset Planning</a></li>
+                    <li><a href="/estate-planning">Estate Planning</a></li>
+                    <li><a href="/wealth-structure">Wealth Structuring</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-2">
+              <div class="footer-widget-nav">
+                <span class="footer-widget-title">Company</span>
+                <nav>
+                  <ul class="footer-nav-list list-unstyled">
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-secondary">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+              <nav>
+                <ul class="footer-copyright-links d-flex align-items-center list-unstyled flex-wrap my-2">
+                  <li><a href="#">Site Map</a></li>
+                  <li><a href="/terms-conditions">Terms & Conditions</a></li>
+                  <li><a href="/privacy-policy">Privacy Policy</a></li>
+                </ul>
+              </nav>
+              <div class="footer-copyrights my-2">
+                <span class="fz-14">&copy; 2026 Montreval Trust Holdings. All Rights Reserved.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Search offcanvas -->
+    <div class="offcanvas offcanvas-top search-offcanvas justify-content-center" tabindex="-1" id="searchOffcanvas">
+      <div class="offcanvas-header">
+        <form class="search-form d-flex align-items-center">
+          <button class="search-btn" aria-label="Submit search"><i aria-hidden="true" class="icon-search"></i></button>
+          <input type="text" class="form-control" placeholder="Type Words Then Enter..." aria-label="Type Words Then Enter..." autofocus>
+        </form>
+        <button type="button" class="close-search" data-bs-dismiss="offcanvas" aria-label="Close">
+          <i aria-hidden="true" class="icon-close"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Side Menu -->
+    <div class="offcanvas offcanvas-end sidemenu-offcanvas" tabindex="-1" id="sideMenuOffcanvas">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column justify-content-between">
+        <div>
+          <img src="/images/logo.png" class="sidemenu-logo" alt="logo" width="140">
+          <h5 class="sidemenu-title">Secure wealth management and trust solutions built to preserve assets, protect families, and create long-term financial stability.</h5>
+          <a href="/contact" class="btn btn-primary"><span>Contact Us</span><i aria-hidden="true" class="icon-arrow-right2"></i></a>
+        </div>
+        <div class="contact-block pb-70">
+          <h5 class="contact-block-title">Contact Info</h5>
+          <ul class="contact-list list-unstyled mb-30">
+            <li><span>Email Us:</span><a href="mailto:support@montrevaltrustholdings.org">support@montrevaltrustholdings.org</a></li>
+          </ul>
+          <ul class="social-icons social-icons-layout2 list-unstyled mb-0">
+            <li><a href="#"><i aria-hidden="true" class="social-icon icon-facebook-circle"></i></a></li>
+            <li><a href="#"><i aria-hidden="true" class="social-icon icon-twitter-circle"></i></a></li>
+            <li><a href="#"><i aria-hidden="true" class="social-icon icon-linkedin-circle"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="scrollTopBtn" class="btn btn-primary btn-primary-style2 scroll-btn" aria-label="Scroll to top">
+      <i aria-hidden="true" class="icon-arrow-up"></i>
+    </button>
+
+  </div>
+  <!-- /.wrapper -->
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="/assets/js/libraries.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- Password Toggle Script -->
+  <script>
+    document.querySelectorAll('.password-toggle').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

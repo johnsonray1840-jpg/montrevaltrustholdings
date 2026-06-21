@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Verification | Montreval Trust Holdings</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/assets/css/libraries.css">
+    <link rel="stylesheet" href="/assets/css/icons.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-dark: #223140;
+            --brand-white: #ffffff;
+            --brand-gray: #94a3b8;
+            --brand-border: rgba(255, 255, 255, 0.08);
+            --brand-bg: rgba(255, 255, 255, 0.03);
+            --bg-dark: #0f172a;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-dark); font-family: 'DM Sans', sans-serif; color: #e2e8f0; min-height: 100vh; }
+
+        .dashboard { padding: 20px 0 60px; }
+        .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+
+        .sidebar {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 20px; padding: 24px; position: sticky; top: 100px;
+        }
+        .user-profile { padding: 20px; text-align: center; border-bottom: 1px solid var(--brand-border); margin-bottom: 20px; }
+        .user-avatar { width: 80px; height: 80px; margin: 0 auto 15px; background: var(--brand-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.15); }
+        .user-avatar i { font-size: 3rem; color: var(--brand-white); }
+        .user-profile h4 { color: var(--brand-white); margin-bottom: 4px; }
+        .user-profile p { color: var(--brand-gray); font-size: 0.9rem; }
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 6px; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--brand-gray); text-decoration: none; border-radius: 10px; font-size: 0.95rem; transition: all 0.2s; }
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.05); color: var(--brand-white); }
+        .sidebar-nav li.active a { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-nav i { width: 20px; }
+
+        .content-area h1 { color: var(--brand-white); font-size: 1.6rem; margin-bottom: 20px; }
+
+        .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+        .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--success); }
+        .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); }
+
+        .info-box {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 12px; padding: 18px; margin-bottom: 20px;
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .info-box i { color: var(--brand-white); font-size: 1.2rem; margin-top: 2px; }
+        .info-box strong { color: var(--brand-white); display: block; }
+        .info-box p { color: var(--brand-gray); margin: 4px 0 0; font-size: 0.85rem; }
+
+        .kyc-wizard { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
+        .kyc-wizard::before { content: ''; position: absolute; top: 20px; left: 0; right: 0; height: 2px; background: var(--brand-border); z-index: 0; }
+        .kyc-step { flex: 1; text-align: center; position: relative; z-index: 1; }
+        .kyc-step .step-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.06); border: 2px solid var(--brand-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600; color: var(--brand-gray); font-size: 0.85rem; }
+        .kyc-step.active .step-icon { background: var(--brand-white); border-color: var(--brand-white); color: var(--brand-dark); }
+        .kyc-step.completed .step-icon { background: var(--success); border-color: var(--success); color: #fff; }
+        .kyc-step .step-label { font-size: 0.75rem; color: var(--brand-gray); }
+
+        .kyc-pane { display: none; }
+        .kyc-pane.active { display: block; }
+
+        h3 { color: var(--brand-white); margin-bottom: 18px; font-size: 1.1rem; }
+        p { color: var(--brand-gray); font-size: 0.9rem; margin-bottom: 15px; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--brand-gray); font-size: 0.85rem; font-weight: 500; }
+        .required-badge { color: var(--danger); }
+
+        .form-control {
+            width: 100%; padding: 11px 14px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--brand-border);
+            border-radius: 10px; color: var(--brand-white); font-size: 0.9rem;
+            font-family: inherit;
+        }
+        .form-control:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+        .form-control:disabled { opacity: 0.5; }
+        select.form-control option { background: #1a1f2e; color: #fff; }
+        small { color: var(--brand-gray); font-size: 0.75rem; display: block; margin-top: 4px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .image-upload-area {
+            border: 2px dashed var(--brand-border); border-radius: 14px;
+            padding: 25px; text-align: center; cursor: pointer; transition: all 0.2s;
+        }
+        .image-upload-area:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.02); }
+        .image-upload-area i { color: var(--brand-gray); }
+        .image-upload-area p { color: var(--brand-gray); margin-top: 8px; }
+        .image-preview { max-width: 100%; max-height: 180px; margin-top: 12px; border-radius: 8px; }
+
+        .action-buttons { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; border: none; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--brand-dark); color: var(--brand-white); border: 1px solid rgba(255,255,255,0.12); }
+        .btn-primary:hover { background: #2d4257; }
+        .btn-outline { background: transparent; border: 1px solid var(--brand-border); color: var(--brand-white); }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+
+        .summary-box {
+            background: var(--brand-bg); border: 1px solid var(--brand-border);
+            border-radius: 12px; padding: 20px; margin-bottom: 20px;
+        }
+        .summary-box p { margin-bottom: 8px; }
+        .summary-box strong { color: var(--brand-white); }
+
+        .checkbox-label { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer; color: var(--brand-gray); font-size: 0.9rem; }
+        .checkbox-label input { accent-color: var(--brand-white); }
+
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4><%= user.fullName %></h4>
+                        <p><%= user.email %></p>
+                    </div>
+                    <ul class="sidebar-nav">
+                        <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li class="active"><a href="/user/kyc"><i class="fas fa-id-card"></i> Verification</a></li>
+                        <li><a href="/user/trusts"><i class="fas fa-shield-haltered"></i> My Trusts</a></li>
+                        <li><a href="/user/wallet"><i class="fas fa-wallet"></i> Wallet</a></li>
+                        <li><a href="/user/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-area">
+                    <h1>Identity Verification (KYC)</h1>
+
+                    <% if (locals.success) { %><div class="alert alert-success"><i class="fas fa-check-circle"></i> <%= success %></div><% } %>
+                    <% if (locals.error) { %><div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <%= error %></div><% } %>
+
+                    <% const kyc = user.kycData || {}; %>
+                    <% if (user.kycStatus === 'approved') { %>
+                        <div class="alert alert-success"><i class="fas fa-check-circle"></i> Your identity has been verified. You have full access to all features.</div>
+                    <% } else if (user.kycStatus === 'pending') { %>
+                        <div class="info-box"><i class="fas fa-clock"></i><div><strong>Under Review</strong><p>Your verification is being reviewed. This usually takes 1-2 business days.</p></div></div>
+                    <% } else if (user.kycStatus === 'rejected') { %>
+                        <div class="info-box" style="border-left:3px solid var(--danger);">
+                            <i class="fas fa-times-circle" style="color:var(--danger);"></i>
+                            <div><strong>Verification Rejected</strong><p><%= user.kycRejectionReason || 'No reason provided' %></p></div>
+                        </div>
+                        <a href="/user/kyc?resubmit=1" class="btn btn-primary btn-sm" style="margin-bottom:20px;">Resubmit Documents</a>
+                    <% } %>
+
+                    <% if (['not_started', 'rejected'].includes(user.kycStatus) || resubmit) { %>
+                        <div class="kyc-wizard">
+                            <div class="kyc-step active" data-step="1"><div class="step-icon">1</div><div class="step-label">Personal</div></div>
+                            <div class="kyc-step" data-step="2"><div class="step-icon">2</div><div class="step-label">ID</div></div>
+                            <div class="kyc-step" data-step="3"><div class="step-icon">3</div><div class="step-label">Address</div></div>
+                            <div class="kyc-step" data-step="4"><div class="step-icon">4</div><div class="step-label">Selfie</div></div>
+                            <div class="kyc-step" data-step="5"><div class="step-icon">5</div><div class="step-label">Submit</div></div>
+                        </div>
+
+                        <form id="kycForm" method="POST" action="/user/kyc/submit" enctype="multipart/form-data">
+                            <!-- Step 1 -->
+                            <div class="kyc-pane active" data-step="1">
+                                <h3>Personal Information</h3>
+                                <div class="form-group"><label>Full Legal Name <span class="required-badge">*</span></label><input type="text" class="form-control" value="<%= user.fullName %>" disabled></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Date of Birth <span class="required-badge">*</span></label><input type="date" name="dateOfBirth" class="form-control" value="<%= kyc.dateOfBirth ? kyc.dateOfBirth.toISOString().split('T')[0] : '' %>" required></div>
+                                    <div class="form-group"><label>Last 4 of SSN <span class="required-badge">*</span></label><input type="text" name="ssnLast4" class="form-control" placeholder="1234" maxlength="4" pattern="\d{4}" value="<%= kyc.ssnLast4 || '' %>" required><small>Only last 4 digits for verification.</small></div>
+                                </div>
+                                <div class="action-buttons"><button type="button" class="btn btn-primary next-step">Continue <i class="fas fa-arrow-right"></i></button></div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="kyc-pane" data-step="2">
+                                <h3>Government-Issued ID</h3>
+                                <div class="form-group"><label>ID Type <span class="required-badge">*</span></label><select name="idType" class="form-control" required><option value="">Select</option><option value="drivers_license" <%= kyc.idType=='drivers_license'?'selected':'' %>>Driver's License</option><option value="passport" <%= kyc.idType=='passport'?'selected':'' %>>Passport</option><option value="national_id" <%= kyc.idType=='national_id'?'selected':'' %>>National ID</option></select></div>
+                                <div class="form-group"><label>ID Number <span class="required-badge">*</span></label><input type="text" name="idNumber" class="form-control" value="<%= kyc.idNumber || '' %>" required></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Front of ID <span class="required-badge">*</span></label><div class="image-upload-area upload-trigger" data-target="idFront"><i class="fas fa-cloud-upload-alt fa-2x"></i><p>Upload front</p><input type="file" id="idFront" name="idFront" accept="image/*,.pdf" style="display:none;" required></div><img id="idFrontPreview" class="image-preview" style="display:none;"></div>
+                                    <div class="form-group"><label>Back of ID <span class="required-badge">*</span></label><div class="image-upload-area upload-trigger" data-target="idBack"><i class="fas fa-cloud-upload-alt fa-2x"></i><p>Upload back</p><input type="file" id="idBack" name="idBack" accept="image/*,.pdf" style="display:none;" required></div><img id="idBackPreview" class="image-preview" style="display:none;"></div>
+                                </div>
+                                <div class="action-buttons"><button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button><button type="button" class="btn btn-primary next-step">Continue <i class="fas fa-arrow-right"></i></button></div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="kyc-pane" data-step="3">
+                                <h3>Proof of Address</h3>
+                                <div class="form-group"><label>Upload Utility Bill or Bank Statement <span class="required-badge">*</span></label><div class="image-upload-area upload-trigger" data-target="addressDoc"><i class="fas fa-file-invoice fa-2x"></i><p>Upload document</p><input type="file" id="addressDoc" name="addressDoc" accept=".pdf,image/*" style="display:none;" required></div><img id="addressDocPreview" class="image-preview" style="display:none;"><small>Must show name and address, dated within 3 months.</small></div>
+                                <div class="form-group"><label>Street <span class="required-badge">*</span></label><input type="text" name="street" class="form-control" value="<%= kyc.addressDetails?.street || user.address?.street || '' %>" required></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>City <span class="required-badge">*</span></label><input type="text" name="city" class="form-control" value="<%= kyc.addressDetails?.city || user.address?.city || '' %>" required></div>
+                                    <div class="form-group"><label>State <span class="required-badge">*</span></label><input type="text" name="state" class="form-control" value="<%= kyc.addressDetails?.state || user.address?.state || '' %>" required></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>ZIP <span class="required-badge">*</span></label><input type="text" name="zipCode" class="form-control" value="<%= kyc.addressDetails?.zipCode || user.address?.zipCode || '' %>" required></div>
+                                    <div class="form-group"><label>Country</label><input type="text" class="form-control" value="USA" disabled></div>
+                                </div>
+                                <div class="action-buttons"><button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button><button type="button" class="btn btn-primary next-step">Continue <i class="fas fa-arrow-right"></i></button></div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="kyc-pane" data-step="4">
+                                <h3>Selfie with ID</h3>
+                                <p>Take a photo holding your ID next to your face. Both must be clearly visible.</p>
+                                <div class="form-group"><label>Upload Selfie <span class="required-badge">*</span></label><div class="image-upload-area upload-trigger" data-target="selfie"><i class="fas fa-camera fa-2x"></i><p>Upload selfie</p><input type="file" id="selfie" name="selfie" accept="image/*" style="display:none;" required></div><img id="selfiePreview" class="image-preview" style="display:none;"></div>
+                                <div class="action-buttons"><button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button><button type="button" class="btn btn-primary next-step">Review <i class="fas fa-arrow-right"></i></button></div>
+                            </div>
+
+                            <!-- Step 5 -->
+                            <div class="kyc-pane" data-step="5">
+                                <h3>Review & Submit</h3>
+                                <div class="summary-box">
+                                    <p><strong>Name:</strong> <%= user.fullName %></p>
+                                    <p><strong>DOB:</strong> <span id="reviewDob"></span></p>
+                                    <p><strong>SSN:</strong> <span id="reviewSsn"></span></p>
+                                    <p><strong>ID:</strong> <span id="reviewIdType"></span> - <span id="reviewIdNumber"></span></p>
+                                    <p><strong>Address:</strong> <span id="reviewAddress"></span></p>
+                                </div>
+                                <label class="checkbox-label"><input type="checkbox" id="confirmKyc" required> I certify all information is true and accurate.</label>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-outline prev-step"><i class="fas fa-arrow-left"></i> Back</button>
+                                    <button type="submit" class="btn btn-success" id="submitBtn" disabled>Submit Verification</button>
+                                </div>
+                            </div>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+        const form = document.getElementById('kycForm');
+        if (!form) throw new Error('KYC form not found');
+
+        function showStep(n) {
+            document.querySelectorAll('.kyc-pane').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.kyc-pane[data-step="${n}"]`)?.classList.add('active');
+            document.querySelectorAll('.kyc-step').forEach(s => {
+                const sn = parseInt(s.dataset.step);
+                s.classList.remove('active', 'completed');
+                if (sn === n) s.classList.add('active');
+                if (sn < n) s.classList.add('completed');
+            });
+            currentStep = n;
+        }
+
+        document.querySelectorAll('.next-step').forEach(b => b.addEventListener('click', () => { if (currentStep < totalSteps) showStep(currentStep + 1); if (currentStep === totalSteps) updateReview(); }));
+        document.querySelectorAll('.prev-step').forEach(b => b.addEventListener('click', () => { if (currentStep > 1) showStep(currentStep - 1); }));
+
+        document.querySelectorAll('.upload-trigger').forEach(area => {
+            area.addEventListener('click', () => area.querySelector('input[type="file"]').click());
+            const input = area.querySelector('input[type="file"]');
+            input.addEventListener('change', function() {
+                const preview = document.getElementById(this.id + 'Preview');
+                if (preview && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+
+        document.getElementById('confirmKyc').addEventListener('change', function() {
+            document.getElementById('submitBtn').disabled = !this.checked;
+        });
+
+        function updateReview() {
+            document.getElementById('reviewDob').textContent = form.querySelector('[name="dateOfBirth"]').value || '—';
+            document.getElementById('reviewSsn').textContent = form.querySelector('[name="ssnLast4"]').value || '—';
+            document.getElementById('reviewIdType').textContent = form.querySelector('[name="idType"]').selectedOptions[0]?.text || '—';
+            document.getElementById('reviewIdNumber').textContent = form.querySelector('[name="idNumber"]').value || '—';
+            const street = form.querySelector('[name="street"]').value || '';
+            const city = form.querySelector('[name="city"]').value || '';
+            const state = form.querySelector('[name="state"]').value || '';
+            const zip = form.querySelector('[name="zipCode"]').value || '';
+            document.getElementById('reviewAddress').textContent = [street, city, state, zip].filter(Boolean).join(', ') || '—';
+        }
+
+        showStep(1);
+    </script>
+</body>
+</html>
