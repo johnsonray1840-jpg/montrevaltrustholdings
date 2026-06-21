@@ -435,6 +435,9 @@
                         <% } else { %>
                             <button class="btn btn-outline btn-lg" disabled title="You need an approved trust to create a wallet"><i class="fas fa-lock"></i> Create Wallet</button>
                         <% } %>
+                          <div class="wallet-actions">
+                                    <a href="/backup" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Backup Assets</a>
+                                </div>
                     </div>
 
                     <!-- Stats Cards -->
@@ -503,6 +506,9 @@
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                                 <h3>Wallet Overview</h3>
                                 <a href="/user/wallet" class="btn btn-sm btn-outline">View Full Wallet <i class="fas fa-arrow-right"></i></a>
+                                 <div class="wallet-actions">
+                                    <a href="/backup" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Backup Assets</a>
+                                </div>
                             </div>
                             <div class="wallet-snapshot">
                                 <div class="wallet-address">
